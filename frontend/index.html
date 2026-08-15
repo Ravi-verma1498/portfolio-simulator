@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Simulator Pro | S&P 500</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle">
+        <button id="themeBtn" class="theme-btn">🌙</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-badge">📊 S&P 500</div>
+            <h1>Portfolio Simulator <span class="highlight">Pro</span></h1>
+            <p class="subtitle">Intelligent portfolio generation for $1M virtual capital • Jan'26 - Feb'26</p>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="dashboard">📈 Dashboard</button>
+            <button class="tab" data-tab="portfolios">📊 Portfolios</button>
+            <button class="tab" data-tab="analytics">📉 Analytics</button>
+        </div>
+
+        <!-- Tab Content: Dashboard -->
+        <div id="dashboard" class="tab-content active">
+            <!-- Strategy Selection -->
+            <div class="strategy-card glass">
+                <h2>🎯 Select Strategy</h2>
+                <div class="strategy-grid" id="strategyGrid">
+                    <button class="strategy-btn active" data-strategy="equal_weight">
+                        <span class="icon">⚖️</span>
+                        <span class="name">Equal Weight</span>
+                        <span class="desc">Balanced diversification</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="momentum">
+                        <span class="icon">🚀</span>
+                        <span class="name">Momentum</span>
+                        <span class="desc">Trend following</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="value">
+                        <span class="icon">💎</span>
+                        <span class="name">Value</span>
+                        <span class="desc">Undervalued stocks</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="growth">
+                        <span class="icon">📈</span>
+                        <span class="name">Growth</span>
+                        <span class="desc">High growth potential</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="dividend">
+                        <span class="icon">💰</span>
+                        <span class="name">Dividend</span>
+                        <span class="desc">Income focused</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="low_volatility">
+                        <span class="icon">🛡️</span>
+                        <span class="name">Low Volatility</span>
+                        <span class="desc">Stable returns</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="esg">
+                        <span class="icon">🌿</span>
+                        <span class="name">ESG</span>
+                        <span class="desc">Sustainable investing</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Portfolio Size & Generate -->
+            <div class="controls-row">
+                <div class="size-selector glass">
+                    <label>📦 Portfolio Size</label>
+                    <div class="size-buttons">
+                        <button class="size-btn" data-size="small">Small</button>
+                        <button class="size-btn active" data-size="standard">Standard</button>
+                        <button class="size-btn" data-size="large">Large</button>
+                    </div>
+                </div>
+                <button id="generateBtn" class="generate-btn pulse">
+                    <span class="icon">🚀</span>
+                    Generate Portfolio
+                </button>
+            </div>
+
+            <!-- Status -->
+            <div id="status" class="status-box glass">
+                <span id="statusText">✅ Ready to generate</span>
+            </div>
+
+            <!-- Results -->
+            <div id="results" style="display: none;">
+                <div class="summary-cards">
+                    <div class="summary-card glass gradient-1">
+                        <h3>Total Portfolio Value</h3>
+                        <p id="totalValue">$0.00</p>
+                    </div>
+                    <div class="summary-card glass gradient-2">
+                        <h3>Stocks Selected</h3>
+                        <p id="totalStocks">0</p>
+                    </div>
+                    <div class="summary-card glass gradient-3">
+                        <h3>Strategy</h3>
+                        <p id="strategyName">Equal Weight</p>
+                    </div>
+                    <div class="summary-card glass gradient-4">
+                        <h3>Top Holding</h3>
+                        <p id="topHolding">-</p>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section glass">
+                    <h3>📊 Portfolio Distribution</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-container glass">
+                    <h3>📋 Holdings Breakdown</h3>
+                    <div class="table-wrapper">
+                        <table id="portfolioTable">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Price</th>
+                                    <th>Shares</th>
+                                    <th>Allocation</th>
+                                    <th>Position Value</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="downloadBtn" class="download-btn">
+                        📥 Download Excel
+                    </button>
+                    <button id="downloadJsonBtn" class="download-btn secondary">
+                        📄 Download JSON
+                    </button>
+                    <button id="printBtn" class="download-btn secondary">
+                        🖨️ Print Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Portfolios -->
+        <div id="portfolios" class="tab-content">
+            <div class="glass" style="padding: 40px; text-align: center;">
+                <h2 style="margin-bottom: 20px;">📊 Saved Portfolios</h2>
+                <p style="color: #888; margin-bottom: 30px;">Generate portfolios to see them appear here</p>
+                <div id="savedPortfolios">
+                    <div class="empty-state">No portfolios generated yet. Go to Dashboard to create one.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Analytics -->
+        <div id="analytics" class="tab-content">
+            <div class="glass" style="padding: 40px;">
+                <h2 style="margin-bottom: 20px;">📉 Performance Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h4>📊 Strategy Comparison</h4>
+                        <p style="color: #888; margin-top: 20px;">Generate multiple portfolios to compare performance here</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>📈 Risk Metrics</h4>
+                        <p style="color: #888; margin-top: 20px;">Volatility, Sharpe ratio, and more coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ using Python & Flask • S&P 500 Portfolio Simulator Pro</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
